@@ -111,6 +111,11 @@ def create_app(test_config=None):
     # Register Tasks Blueprint
     app.register_blueprint(tasks_bp)
 
+    # Add health check route for Docker
+    @app.route("/health")
+    def health_check():
+        return {"status": "healthy", "service": "DockerDiscordControl"}, 200
+
     # Register App-Level Request Handlers HERE
     @app.before_request
     def before_request_func():
@@ -221,6 +226,7 @@ set_initial_password_from_env()
 
 # Only create app instance for direct execution
 if __name__ == '__main__':
+    import os
     # Use the created app instance
     app = create_app()
-    app.run(host='0.0.0.0', port=5000) 
+    app.run(host='0.0.0.0', port=int(os.environ.get("WEB_PORT", 8374))) 
