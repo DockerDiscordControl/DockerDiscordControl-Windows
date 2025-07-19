@@ -1,0 +1,74 @@
+version: "3.8"
+
+networks:
+  ddc-windows-network:
+    driver: bridge
+
+services:
+  setup:
+    image: alpine:latest
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+      - ./data:/app/data
+    command: >
+      sh -c "
+        echo Setting up Windows-compatible permissions... &&
+        mkdir -p /app/config /app/logs /app/data &&
+        chown -R 1000:1000 /app/config /app/logs /app/data &&
+        chmod -R 755 /app/config /app/logs /app/data &&
+        echo Windows setup complete!
+      "
+    networks:
+      - ddc-windows-network
+
+  ddc:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: ddc-windows
+    restart: unless-stopped
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - TZ=${TZ:-UTC}
+      - PLATFORM=windows
+    volumes:
+      - ./config:/app/config:rw
+      - ./logs:/app/logs:rw
+      - ./data:/app/data:rw
+      - .env:/app/.env:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "8374:8374"
+      - "9374:9374"
+    networks:
+      - ddc-windows-network
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: 384M
+        reservations:
+          cpus: "0.25"
+          memory: 96M
+    security_opt:
+      - no-new-privileges:true
+    user: "1000:1000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9374/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "com.dockerdiscordcontrol.platform=windows"
+      - "com.dockerdiscordcontrol.version=1.0.0-windows"

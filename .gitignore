@@ -1,0 +1,16 @@
+.env
+*.env.backup
+__pycache__/
+*.py[cod]
+*.log
+logs/*.log
+config/*.json
+data/
+backups/
+.vscode/
+.idea/
+*.tmp
+Thumbs.db
+.DS_Store
+node_modules/
+docker-compose.override.yml
