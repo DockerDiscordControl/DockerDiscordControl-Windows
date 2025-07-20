@@ -31,8 +31,9 @@ RUN mkdir -p /app/config /app/logs /app/data && \
 # Install supervisor
 RUN pip install supervisor
 
-# Configure supervisord
-RUN echo "[supervisord]" > /etc/supervisor/conf.d/supervisord.conf && \
+# Configure supervisord - Create directory first
+RUN mkdir -p /etc/supervisor/conf.d && \
+    echo "[supervisord]" > /etc/supervisor/conf.d/supervisord.conf && \
     echo "logfile=/app/logs/supervisord.log" >> /etc/supervisor/conf.d/supervisord.conf && \
     echo "pidfile=/var/run/supervisord.pid" >> /etc/supervisor/conf.d/supervisord.conf && \
     echo "[program:bot]" >> /etc/supervisor/conf.d/supervisord.conf && \
