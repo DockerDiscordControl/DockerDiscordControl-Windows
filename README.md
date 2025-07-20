@@ -103,7 +103,7 @@ services:
     networks:
       - dockerdiscordcontrol
     labels:
-      - "com.dockerdiscordcontrol.version=1.0.3"
+      - "com.dockerdiscordcontrol.version=1.0.4"
       - "com.dockerdiscordcontrol.platform=windows"
 
 networks:
@@ -215,6 +215,7 @@ docker exec dockerdiscordcontrol-windows docker version
 | Tag | Description | Architecture |
 |-----|-------------|--------------|
 | `latest` | Latest stable release | `linux/amd64`, `linux/arm64` |
+| `1.0.4` | Version 1.0.4 | `linux/amd64`, `linux/arm64` |
 | `1.0.3` | Version 1.0.3 | `linux/amd64`, `linux/arm64` |
 | `debian` | Debian-based image | `linux/amd64`, `linux/arm64` |
 | `alpine` | Alpine-based image | `linux/amd64`, `linux/arm64` |
@@ -249,7 +250,7 @@ We welcome contributions! Please see our [Contributing Guide](https://github.com
 Help keep DockerDiscordControl growing and improving for Windows Docker Desktop users:
 
 - **[☕ Buy Me A Coffee](https://buymeacoffee.com/dockerdiscordcontrol)** - Quick one-time support for development
-- **[💳 PayPal Donation](https://www.paypal.com/donate/?hosted_button_id=DOCKERDISCORDCONTROL)** - Direct contribution to the project  
+- **[💳 PayPal Donation](https://www.paypal.com/donate/?hosted_button_id=XKVC6SFXU2GW4)** - Direct contribution to the project  
 - **[💖 GitHub Sponsors](https://github.com/sponsors/DockerDiscordControl)** - Ongoing monthly support
 
 **Your support helps:**
