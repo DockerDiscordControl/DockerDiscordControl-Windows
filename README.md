@@ -32,7 +32,7 @@ docker run -d \
   -e DISCORD_BOT_TOKEN=your_bot_token_here \
   -e ALLOWED_CHANNELS=channel_id_1,channel_id_2 \
   -e ALLOWED_ROLES=role_id_1,role_id_2 \
-  -p 8080:8080 \
+  -p 8374:8374 \
   dockerdiscordcontrol/dockerdiscordcontrol-windows:latest
 ```
 
@@ -76,7 +76,7 @@ This Windows-optimized version includes:
 | `ALLOWED_CHANNELS` | Comma-separated channel IDs | ✅ Yes | - |
 | `ALLOWED_ROLES` | Comma-separated role IDs | ✅ Yes | - |
 | `LOG_LEVEL` | Logging level (DEBUG, INFO, WARNING, ERROR) | ❌ No | `INFO` |
-| `WEB_UI_PORT` | Web interface port | ❌ No | `8080` |
+| `WEB_UI_PORT` | Web interface port | ❌ No | `8374` |
 | `MAX_CONTAINERS` | Maximum containers to manage | ❌ No | `50` |
 | `COMMAND_TIMEOUT` | Command execution timeout (seconds) | ❌ No | `30` |
 
@@ -99,8 +99,8 @@ services:
       - ALLOWED_ROLES=${ALLOWED_ROLES}
       - LOG_LEVEL=INFO
     ports:
-      - "8080:8080"
-    networks:
+      - "8374:8374"
+      - "9374:9374"    networks:
       - dockerdiscordcontrol
     labels:
       - "com.dockerdiscordcontrol.version=1.0.4"
@@ -134,7 +134,7 @@ networks:
 
 ## 🌐 Web Interface
 
-Access the web interface at `http://localhost:8080` for:
+Access the web interface at `http://localhost:8374` for:
 
 - **Real-time Container Monitoring**: Live status and metrics
 - **Configuration Management**: Easy setup and configuration
@@ -202,7 +202,7 @@ docker exec dockerdiscordcontrol-windows docker version
 #### Windows-Specific Issues
 - Ensure Docker Desktop is running with WSL2 backend
 - Verify Windows container support if using Windows containers
-- Check Windows Firewall settings for port 8080
+- Check Windows Firewall settings for port 8374
 
 ### Performance Optimization
 - Adjust `MAX_CONTAINERS` based on system resources
