@@ -2,8 +2,8 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# Install system dependencies and upgrade to latest security patches
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     curl \
     wget \
     git \
