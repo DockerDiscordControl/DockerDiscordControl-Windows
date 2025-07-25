@@ -1,3 +1,42 @@
+# v1.1.0 - Optimized Alpine Production Release (2025-07-25)
+
+## 🚀 Major Security & Performance Release
+
+This release focuses on critical security updates and optimizations for production environments.
+
+### 🔒 Security Updates
+- **Flask 3.1.1** - Latest stable version with all security patches
+- **Werkzeug 3.1.3** - Latest stable version with RCE vulnerability fixes
+- **aiohttp ≥3.12.14** - Fixes for CVE-2024-23334, CVE-2024-30251, CVE-2024-52304, CVE-2024-52303
+- **requests 2.32.4** - Fix for CVE-2024-47081 (netrc credential leak)
+- **urllib3 ≥2.5.0** - Fixes for CVE-2024-37891 & CVE-2024-47081
+- **setuptools ≥78.1.1** - Fixes for CVE-2025-47273, CVE-2024-6345
+- **cryptography ≥45.0.5** - Latest security patches for token encryption
+
+### 🚀 Performance & Technical Improvements
+- **Docker API 7.1.0** - Updated from 6.1.3 for latest features and security
+- **gevent ≥24.2.0** - Python 3.13 compatibility improvements
+- **Web UI Bug Fixes** - Fixed "Error loading logs: Load failed" issue
+- **Enhanced Log Fetching** - Improved Docker container log viewing with docker-py
+- **Alpine Linux Optimizations** - Ultra-optimized Docker image for production
+
+### 🪟 Windows-Specific Features
+- Optimized dependency management for Windows containers
+- Enhanced Docker Desktop compatibility
+- Improved WSL2 integration support
+- PowerShell automation scripts updated
+
+### 📦 Dependencies Updated
+All Python dependencies synchronized to latest stable versions with security fixes. This resolves all outstanding Dependabot security alerts.
+
+### 🔧 Technical Details
+- Synchronised requirements files across all platforms
+- Enhanced error handling and information exposure prevention
+- Optimized Alpine Linux build process for reduced image size
+- Updated GitHub Actions for optimized container deployment
+
+---
+
 # DockerDiscordControl for Windows - Release Notes
 
 ## v1.0.5-windows - Major Stability & Performance Release 🚀
