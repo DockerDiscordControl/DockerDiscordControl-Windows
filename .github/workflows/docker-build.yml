@@ -1,4 +1,4 @@
-name: Build and Push Docker Image - Windows
+name: 🐳🪟 Windows Docker Hub Push (WSL2)
 
 on:
   push:
