@@ -1,90 +1,85 @@
-# =============================================================================
-# DDC Windows-Optimized Multi-Stage Debian Build
-# Target: Optimized for Windows Docker Desktop with WSL2 backend
-# Addresses all CVEs: CVE-2024-23334, CVE-2024-30251, CVE-2024-52304, 
-# CVE-2024-52303, CVE-2025-47273, CVE-2024-6345, CVE-2024-47081, CVE-2024-37891
-# =============================================================================
+# Ultra-Minimal Alpine Build - Target <100MB
+FROM alpine:3.22.1
 
-# Build stage - Minimal build environment
-FROM python:3.12-slim AS builder
-WORKDIR /build
-
-# Install only essential build dependencies
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-        gcc \
-        g++ \
-        make \
-        libffi-dev \
-        libssl-dev \
-        build-essential && \
-    rm -rf /var/lib/apt/lists/*
-
-# Copy only production requirements for optimal layer caching
-COPY requirements-production.txt .
-
-# Build wheels without any caching to minimize layer size
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
-    pip wheel --no-cache-dir --wheel-dir=/wheels -r requirements-production.txt && \
-    # Verify security-critical packages are built
-    ls -la /wheels/ | grep -E "(aiohttp|setuptools|requests|urllib3)" && \
-    # Clean up pip cache immediately
-    rm -rf /root/.cache /tmp/*
-
-# =============================================================================
-# Final stage - Windows-optimized runtime
-FROM python:3.12-slim
 WORKDIR /app
 
-# Security and optimization environment variables
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PYTHONOPTIMIZE=2 \
-    PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PYTHONPATH=/app \
-    # Security: Disable unnecessary Python features
-    PYTHONHASHSEED=random
+# Install Python and essential packages in one layer
+RUN apk add --no-cache --virtual .build-deps \
+        gcc musl-dev libffi-dev openssl-dev rust cargo \
+    && apk add --no-cache \
+        python3 python3-dev py3-pip \
+        supervisor docker-cli ca-certificates \
+    && python3 -m venv /venv \
+    && /venv/bin/pip install --no-cache-dir --upgrade pip \
+    && /venv/bin/pip install --no-cache-dir \
+        Flask==3.1.1 \
+        Werkzeug==3.1.3 \
+        py-cord==2.6.1 \
+        gunicorn==23.0.0 \
+        gevent==24.11.1 \
+        docker==7.1.0 \
+        cryptography>=45.0.5 \
+        APScheduler==3.10.4 \
+        python-dotenv==1.0.1 \
+        PyYAML==6.0.1 \
+        requests==2.32.4 \
+        aiohttp>=3.12.14 \
+        Flask-HTTPAuth==4.8.0 \
+        Jinja2>=3.1.4 \
+        python-json-logger==2.0.7 \
+        pytz==2024.2 \
+        cachetools==5.3.2 \
+        itsdangerous>=2.2.0 \
+        click>=8.1.7 \
+        blinker>=1.8.2 \
+        MarkupSafe>=2.1.5 \
+        flask-limiter>=3.5.0 \
+        limits>=3.9.0 \
+        greenlet>=3.0.3 \
+        zope.event>=5.0 \
+        zope.interface>=6.2 \
+    && apk del .build-deps python3-dev \
+    && rm -rf /root/.cache/pip \
+    && rm -rf /tmp/* \
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /usr/share/man \
+    && rm -rf /usr/share/doc \
+    && rm -rf /usr/lib/python*/ensurepip \
+    && rm -rf /usr/lib/python*/idlelib \
+    && rm -rf /usr/lib/python*/tkinter \
+    && find /venv -name "*.pyc" -delete \
+    && find /venv -name "__pycache__" -exec rm -rf {} + || true \
+    && find /venv -name "test" -type d -exec rm -rf {} + || true \
+    && find /venv -name "tests" -type d -exec rm -rf {} + || true \
+    && find /venv -name "*.pyo" -delete || true
 
-# Install only absolutely essential runtime dependencies
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-        supervisor \
-        curl \
-        wget \
-        ca-certificates \
-        tzdata && \
-    rm -rf /var/lib/apt/lists/*
+# Create user and groups
+RUN addgroup -g 281 -S docker \
+    && addgroup -g 1000 -S ddcuser \
+    && adduser -u 1000 -S ddcuser -G ddcuser \
+    && adduser ddcuser docker
 
-# Create non-root user for security (Windows-compatible)
-RUN groupadd -g 1000 ddc && \
-    useradd -u 1000 -g ddc -s /bin/bash -m ddc
-
-# Copy pre-built wheels and install them
-COPY --from=builder /wheels /wheels
-RUN pip install --no-cache-dir --no-index --find-links=/wheels /wheels/*.whl && \
-    rm -rf /wheels /root/.cache
-
-# Copy optimized supervisor configuration
+# Copy only essential files
+COPY --chown=ddcuser:ddcuser bot.py .
+COPY --chown=ddcuser:ddcuser app/ app/
+COPY --chown=ddcuser:ddcuser utils/ utils/
+COPY --chown=ddcuser:ddcuser cogs/ cogs/
+COPY --chown=ddcuser:ddcuser gunicorn_config.py .
+# Copy supervisord configuration to both expected locations for supervisorctl compatibility
 COPY supervisord-optimized.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord-optimized.conf /etc/supervisord.conf
 
-# Copy application code with proper ownership
-COPY --chown=ddc:ddc . .
+# Final cleanup and permissions
+RUN mkdir -p /app/config /app/logs \
+    && chown -R ddcuser:ddcuser /app \
+    && find /app -name "*.pyc" -delete \
+    && find /app -name "__pycache__" -exec rm -rf {} + || true
 
-# Create necessary directories with proper permissions
-RUN mkdir -p /app/config /app/logs && \
-    chown -R ddc:ddc /app/config /app/logs && \
-    chmod 755 /app/config /app/logs
+# Set environment
+ENV PATH="/venv/bin:$PATH" \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
-# Health check for Docker and Kubernetes
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8374/health || exit 1
-
-# Switch to non-root user
-USER ddc
-
-# Expose port
-EXPOSE 8374
-
-# Use supervisor to manage processes
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"] 
+USER ddcuser
+EXPOSE 9374
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
