@@ -1,19 +1,24 @@
 # =============================================================================
-# DDC Ultra-Optimized Multi-Stage Alpine Build
-# Target: <100MB final image size with full functionality and security
+# DDC Windows-Optimized Multi-Stage Debian Build
+# Target: Optimized for Windows Docker Desktop with WSL2 backend
 # Addresses all CVEs: CVE-2024-23334, CVE-2024-30251, CVE-2024-52304, 
 # CVE-2024-52303, CVE-2025-47273, CVE-2024-6345, CVE-2024-47081, CVE-2024-37891
 # =============================================================================
 
 # Build stage - Minimal build environment
-FROM python:3.12-alpine AS builder
+FROM python:3.12-slim AS builder
 WORKDIR /build
 
 # Install only essential build dependencies
-RUN apk update && apk upgrade && \
-    apk add --no-cache --virtual .build-deps \
-        gcc g++ musl-dev python3-dev libffi-dev openssl-dev make && \
-    rm -rf /var/cache/apk/*
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+        gcc \
+        g++ \
+        make \
+        libffi-dev \
+        libssl-dev \
+        build-essential && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy only production requirements for optimal layer caching
 COPY requirements-production.txt .
@@ -27,8 +32,8 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     rm -rf /root/.cache /tmp/*
 
 # =============================================================================
-# Final stage - Ultra-minimal runtime (targeting <100MB)
-FROM python:3.12-alpine
+# Final stage - Windows-optimized runtime
+FROM python:3.12-slim
 WORKDIR /app
 
 # Security and optimization environment variables
@@ -42,83 +47,44 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONHASHSEED=random
 
 # Install only absolutely essential runtime dependencies
-RUN apk update && apk upgrade && \
-    apk add --no-cache \
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
         supervisor \
-        docker-cli \
-        openssl \
+        curl \
+        wget \
         ca-certificates \
-        tzdata \
-        curl && \
-    # Aggressive cleanup
-    rm -rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/share/man/* /usr/share/doc/*
+        tzdata && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install pre-built wheels (no compilers or build tools needed)
+# Create non-root user for security (Windows-compatible)
+RUN groupadd -g 1000 ddc && \
+    useradd -u 1000 -g ddc -s /bin/bash -m ddc
+
+# Copy pre-built wheels and install them
 COPY --from=builder /wheels /wheels
-RUN pip install --no-cache-dir /wheels/* && \
-    # Immediate cleanup of wheels and pip cache
-    rm -rf /wheels /root/.cache /tmp/* && \
-    # Verify security packages are installed correctly
-    python -c "import aiohttp, setuptools, requests, urllib3; print('Security packages verified')"
+RUN pip install --no-cache-dir --no-index --find-links=/wheels /wheels/*.whl && \
+    rm -rf /wheels /root/.cache
 
-# Security: Create non-root user and docker group for runtime
-RUN addgroup -g 997 -S docker && \
-    addgroup -g 1000 -S ddcuser && \
-    adduser -u 1000 -S ddcuser -G ddcuser && \
-    adduser ddcuser docker
-
-# Install dumb-init and su-exec in the final stage
-RUN apk add --no-cache dumb-init su-exec
-
-# Copy application code (optimized via .dockerignore)
-COPY . .
-
-# Copy optimized supervisor configuration for non-root user
+# Copy optimized supervisor configuration
 COPY supervisord-optimized.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Create necessary directories and set permissions BEFORE switching user
+# Copy application code with proper ownership
+COPY --chown=ddc:ddc . .
+
+# Create necessary directories with proper permissions
 RUN mkdir -p /app/config /app/logs && \
-    chown -R ddcuser:ddcuser /app/config && \
-    # Logs directory needs to be writable by root (for supervisord.log) and ddcuser (for app logs)
-    chown -R root:ddcuser /app/logs && \
-    chmod -R 775 /app/logs
+    chown -R ddc:ddc /app/config /app/logs && \
+    chmod 755 /app/config /app/logs
 
-# Security hardening and size optimization
-RUN mkdir -p /app/config /app/logs && \
-    chown -R ddcuser:ddcuser /app /app/config /app/logs && \
-    # Remove unnecessary files to minimize image size
-    find /app -name "*.pyc" -delete && \
-    find /app -name "__pycache__" -type d -exec rm -rf {} + && \
-    find /app -name "*.md" -delete && \
-    find /app -name "Dockerfile*" -delete && \
-    find /app -name "docker-compose*" -delete && \
-    find /app -name "*.log" -delete && \
-    find /app -name ".git*" -delete && \
-    # Remove unnecessary Python standard library test modules
-    find /usr/local/lib/python3.12 -name "test" -type d -exec rm -rf {} + && \
-    find /usr/local/lib/python3.12 -name "tests" -type d -exec rm -rf {} + && \
-    find /usr/local/lib/python3.12 -name "*.pyo" -delete && \
-    # Compile Python files for faster startup
-    python -m compileall -b /app 2>/dev/null || true && \
-    # Security: Remove setuid binaries
-    find /usr -perm +6000 -type f -exec chmod a-s {} \; && \
-    # Final cleanup
-    rm -rf /tmp/* /var/tmp/* /root/.cache
+# Health check for Docker and Kubernetes
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:8374/health || exit 1
 
-# PROOF THAT THIS DOCKERFILE IS BEING USED
-RUN echo "Build successful with the CORRECT Dockerfile from $(date)" > /BUILD_PROOF.txt
+# Switch to non-root user
+USER ddc
 
-# Security: Health check with minimal overhead
-HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:9374/ || exit 1
+# Expose port
+EXPOSE 8374
 
-# Expose only necessary port
-EXPOSE 9374
-
-# Create necessary directories
-RUN mkdir -p /app/config /app/logs && \
-    chown -R ddcuser:ddcuser /app
-
-# Security: Use dumb-init and run supervisord as root
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+# Use supervisor to manage processes
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"] 
