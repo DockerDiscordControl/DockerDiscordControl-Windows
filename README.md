@@ -36,17 +36,19 @@ Control your Docker containers directly from Discord on Windows! This Windows-na
 - **Windows Container Support**: Future-ready for Windows container workloads  
 - **Desktop Optimization**: System tray integration and Windows service support (planned)
 - **PowerShell Integration**: Native Windows management scripts included
-- **Debian Multi-Stage Build**: Optimized Debian-based image for Windows environments
+- **Multi-Stage Debian Build**: Production-ready Debian-based image with Python 3.12 optimized for Windows Docker Desktop
 
 ## 🐳 Docker Hub Repository
 
 **Windows-Optimized Image:** \`dockerdiscordcontrol/dockerdiscordcontrol-windows\`
 
 This repository publishes **only** the Windows-optimized Debian-based image, specifically tuned for:
-- Windows Docker Desktop integration and WSL2 compatibility
-- Optimal resource usage on Windows desktop systems
+- Windows Docker Desktop integration and WSL2 compatibility  
+- Python 3.12 with glibc for better package compatibility
+- Optimal resource usage on Windows desktop systems (~150MB)
 - Native Windows Docker socket handling
 - Multi-stage build for reduced image size and improved security
+- Python 3.13 compatibility with audioop-lts support
 
 **Other Platform Images:**
 - **Universal/Unraid**: \`dockerdiscordcontrol/dockerdiscordcontrol\`
