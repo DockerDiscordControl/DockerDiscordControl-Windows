@@ -38,6 +38,7 @@ RUN apk add --no-cache --virtual .build-deps \
         greenlet>=3.0.3 \
         zope.event>=5.0 \
         zope.interface>=6.2 \
+        audioop-lts==0.2.1 \
     && apk del .build-deps python3-dev \
     && rm -rf /root/.cache/pip \
     && rm -rf /tmp/* \
