@@ -1,127 +1,193 @@
-# DockerDiscordControl for Windows 🪟
+# DockerDiscordControl for Windows v2.0
 
-Control your Docker containers directly from Discord on Windows! This Windows-native version provides a Discord bot and web interface specifically optimized for **Windows systems** with **Docker Desktop integration** and **WSL2 compatibility**.
+> **Manage Docker containers through Discord commands - Windows Edition**
 
----
+Control your Docker environment directly from Discord with an intuitive web interface and powerful Discord bot commands. This is the **Windows-optimized version** of DockerDiscordControl v2.0.
 
-## 💖 **Support DDC Development**
+## Features
 
-**Help keep DockerDiscordControl growing and improving across all platforms!**
+### v2.0 New Features
+- **Live Logs Viewer**: Real-time container log streaming in the Web-UI
+- **Task System**: Schedule tasks (Once, Daily, Weekly, Monthly, Yearly)
+- **Container Info**: Password-protected detailed container information
+- **Multi-language Support**: English, German, French
+- **Mech Evolution System**: 11-stage mech progression with XP and fuel
+- **16x Faster Docker Cache**: Optimized from 500ms to 31ms response times
+- **Intelligent Bot Retry Loop**: Container stays running when Discord token is missing
+- **Auto-Cleanup**: Automatically deactivates missing containers
 
-<div align="center">
+### Core Features
+- Start, stop, restart, and remove Docker containers via Discord
+- Real-time container status monitoring
+- Beautiful web UI for configuration and management
+- Secure password authentication
+- Resource usage tracking (CPU, Memory, Network)
+- Container logs viewing
+- Automated scheduled tasks
+- Discord embed messages with rich formatting
 
-[![Buy Me A Coffee](https://img.shields.io/badge/☕_Buy_Me_A_Coffee-Support_DDC-orange?style=for-the-badge&logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/dockerdiscordcontrol)
-&nbsp;&nbsp;&nbsp;
-[![PayPal Donation](https://img.shields.io/badge/💝_PayPal_Donation-Support_DDC-blue?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/dockerdiscordcontrol)
+## Quick Start
 
-**Your support helps maintain DDC across Windows, Linux, macOS, and Universal versions!**
+### Prerequisites
+- **Docker Desktop for Windows** with WSL 2 backend
+- Discord Bot Token ([Create one here](https://discord.com/developers/applications))
 
-</div>
+### Method 1: Docker Compose (Recommended)
 
----
+1. Clone this repository:
+```bash
+git clone https://github.com/DockerDiscordControl/DockerDiscordControl-Windows.git
+cd DockerDiscordControl-Windows
+```
 
-**Homepage:** [DDC for Windows](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows) | **Main Project:** [DockerDiscordControl](https://github.com/DockerDiscordControl/DockerDiscordControl)
+2. Create a `.env` file:
+```bash
+# Required
+DISCORD_BOT_TOKEN=your_bot_token_here
+DISCORD_GUILD_ID=your_guild_id_here
+FLASK_SECRET_KEY=your_random_secret_key
 
-[![Version](https://img.shields.io/badge/version-v1.1.2-blue.svg)](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows/releases/latest)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows/blob/main/LICENSE)
-[![Windows Optimized](https://img.shields.io/badge/Windows-Docker_Desktop-blue.svg)](#performance-metrics)
-[![Multi-Architecture](https://img.shields.io/badge/Arch-Intel_AMD_x64-orange.svg)](#installation)
-[![Memory Optimized](https://img.shields.io/badge/RAM-~100MB-green.svg)](#performance-metrics)
+# Optional
+TZ=America/New_York
+LOG_LEVEL=INFO
+```
 
-## 🚀 Revolutionary Windows Performance
+3. Start the container:
+```bash
+docker-compose up -d
+```
 
-**Major Windows-Specific Optimizations Delivered:**
+4. Access the Web-UI at `http://localhost:9374`
 
-- **Docker Desktop Integration**: Native WSL2 backend support with 100MB typical RAM usage
-- **Windows Container Support**: Future-ready for Windows container workloads  
-- **Desktop Optimization**: System tray integration and Windows service support (planned)
-- **PowerShell Integration**: Native Windows management scripts included
-- **Multi-Stage Debian Build**: Production-ready Debian-based image with Python 3.12 optimized for Windows Docker Desktop
+### Method 2: Docker Run
 
-## 🐳 Docker Hub Repository
-
-**Windows-Optimized Image:** \`dockerdiscordcontrol/dockerdiscordcontrol-windows\`
-
-This repository publishes **only** the Windows-optimized Debian-based image, specifically tuned for:
-- Windows Docker Desktop integration and WSL2 compatibility  
-- Python 3.12 with glibc for better package compatibility
-- Optimal resource usage on Windows desktop systems (~150MB)
-- Native Windows Docker socket handling
-- Multi-stage build for reduced image size and improved security
-- Python 3.13 compatibility with audioop-lts support
-
-**Other Platform Images:**
-- **Universal/Unraid**: \`dockerdiscordcontrol/dockerdiscordcontrol\`
-- **Linux**: \`dockerdiscordcontrol/dockerdiscordcontrol-linux\`  
-- **macOS**: \`dockerdiscordcontrol/dockerdiscordcontrol-mac\`
-
-## 🛠️ Quick Installation
-
-### **Docker Hub Installation (Recommended)**
-\`\`\`powershell
-# Pull the Windows-optimized image
-docker pull dockerdiscordcontrol/dockerdiscordcontrol-windows:latest
-
-# Run with docker compose
-docker compose up -d
-
-# Or run directly
-docker run -d --name ddc \`
-  -p 8374:8374 \`
-  -v /var/run/docker.sock:/var/run/docker.sock \`
-  -v \${PWD}/config:/app/config \`
-  -v \${PWD}/logs:/app/logs \`
+```bash
+docker run -d \
+  --name ddc-windows \
+  -p 9374:9374 \
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \
+  -v ./config:/app/config \
+  -v ./logs:/app/logs \
+  -e DISCORD_BOT_TOKEN="your_bot_token" \
+  -e DISCORD_GUILD_ID="your_guild_id" \
+  -e FLASK_SECRET_KEY="your_secret_key" \
   dockerdiscordcontrol/dockerdiscordcontrol-windows:latest
-\`\`\`
+```
 
-## 🔧 Configuration
+### Method 3: Build from Source
 
-1. **Access the Web Interface**: \`http://localhost:8374\`
-2. **Default Login**: \`admin\` / \`admin\` (change immediately!)
-3. **Configure Discord Bot**: Add your bot token and guild ID
-4. **Set Docker Settings**: Configure container refresh intervals
-5. **Channel Permissions**: Set up Discord channel access controls
+```bash
+git clone https://github.com/DockerDiscordControl/DockerDiscordControl-Windows.git
+cd DockerDiscordControl-Windows
+docker build -t ddc-windows:v2.0 .
+docker-compose up -d
+```
 
-## 🆕 Latest Updates (v1.1.2)
+## Configuration
 
-### **✅ Critical ConfigManager Stability Fixes**
-- **Fixed ConfigManager**: Resolved missing attributes and cache invalidation issues
-- **Eliminated CPU spikes**: Fixed restart loops that caused high CPU usage
-- **Enhanced error handling**: Improved subscriber notification system
-- **System stability**: Eliminated config cache reload loops
+### Environment Variables
 
-### **✅ Windows Docker Desktop Optimizations**
-- **Multi-stage Debian build**: Converted to multi-stage build for smaller, more secure images
-- **Resource optimization**: ~100MB RAM usage with minimal CPU impact
-- **Health monitoring**: Added \`/health\` endpoint for proper Docker health checks  
-- **WSL2 efficiency**: Optimized for Windows Subsystem for Linux v2 backend
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `DISCORD_BOT_TOKEN` | Yes | - | Your Discord bot token |
+| `DISCORD_GUILD_ID` | Yes | - | Your Discord server ID |
+| `FLASK_SECRET_KEY` | Yes | - | Secret key for web sessions |
+| `TZ` | No | UTC | Timezone (e.g., America/New_York) |
+| `LOG_LEVEL` | No | INFO | Logging level (DEBUG, INFO, WARNING, ERROR) |
+| `DDC_TOKEN_RETRY_INTERVAL` | No | 60 | Bot retry interval in seconds |
+| `DDC_TOKEN_MAX_RETRIES` | No | 0 | Max retries (0 = infinite) |
 
-**🎉 Ready for production deployment on any Windows Docker Desktop environment!**
+### Web-UI Configuration
+1. Navigate to `http://localhost:9374`
+2. Log in with default credentials (set via web interface)
+3. Configure Discord bot settings
+4. Set up container monitoring preferences
+5. Create scheduled tasks
+
+## Discord Commands
+
+### Container Management
+- `/start <container>` - Start a container
+- `/stop <container>` - Stop a container
+- `/restart <container>` - Restart a container
+- `/remove <container>` - Remove a container
+- `/status [container]` - Show container status
+
+### Information
+- `/list` - List all containers
+- `/logs <container>` - View container logs
+- `/stats <container>` - Show resource usage
+
+### Tasks & Automation
+- `/task create` - Create a new scheduled task
+- `/task list` - List all tasks
+- `/task delete <id>` - Delete a task
+
+## Windows-Specific Notes
+
+### Docker Desktop Requirements
+- **WSL 2 Backend**: Required for best performance
+- **File Sharing**: Ensure config and logs directories are shared
+- **Resource Limits**: Adjust in Docker Desktop settings if needed
+
+### Volume Paths
+On Windows with WSL 2, use Linux-style paths:
+```yaml
+volumes:
+  - /var/run/docker.sock:/var/run/docker.sock:ro
+  - ./config:/app/config
+  - ./logs:/app/logs
+```
+
+### Networking
+- Default port: `9374` (Web-UI)
+- Ensure Windows Firewall allows Docker Desktop
+- WSL 2 networking is automatic
+
+## Troubleshooting
+
+### Container won't start
+- Check Docker Desktop is running
+- Verify WSL 2 backend is enabled
+- Check Docker socket permissions
+
+### Bot not connecting
+- Verify Discord token is correct
+- Check bot has proper permissions
+- View logs: `docker logs ddc-windows`
+
+### Web-UI not accessible
+- Check port 9374 is not in use
+- Verify firewall settings
+- Check container is running: `docker ps`
+
+### Docker socket permission errors
+- Restart Docker Desktop
+- Verify WSL 2 integration is enabled
+- Check user is in docker group (in WSL)
+
+## Support
+
+- **Documentation**: Check the `wiki/` directory
+- **Issues**: [GitHub Issues](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows/discussions)
+
+## Security
+
+- Change default passwords immediately
+- Use strong `FLASK_SECRET_KEY`
+- Keep Discord token secure
+- Regularly update the container
+- Review container permissions
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Credits
+
+Developed for the Docker and Discord communities. Special thanks to all contributors!
 
 ---
 
-## 🌟 **Show Your Support**
-
-If DockerDiscordControl helps you manage your Windows containers, please consider supporting the project:
-
-<div align="center">
-
-### **💖 Support DDC Development**
-
-[![⭐ Star on GitHub](https://img.shields.io/badge/⭐_Star_on_GitHub-Show_Support-brightgreen?style=for-the-badge&logo=github)](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)
-
-[![☕ Buy Me A Coffee](https://img.shields.io/badge/☕_Buy_Me_A_Coffee-orange?style=for-the-badge&logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/dockerdiscordcontrol)
-&nbsp;&nbsp;
-[![💝 PayPal Donation](https://img.shields.io/badge/💝_PayPal_Donation-blue?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/dockerdiscordcontrol)
-
-**Your support helps maintain DDC across all platforms and develop new features!**
-
-</div>
-
----
-
-**🪟 Built with ❤️ for Windows Docker Desktop users**
-
-**🚀 Perfect for Windows desktops, home labs, and development environments!** 
-
-**⭐ Star this repo if DockerDiscordControl helps you manage your Windows containers!**
+**Windows v2.0** | [Main Repo](https://github.com/DockerDiscordControl/DockerDiscordControl) | [Mac Version](https://github.com/DockerDiscordControl/DockerDiscordControl-Mac) | [Linux Version](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux)

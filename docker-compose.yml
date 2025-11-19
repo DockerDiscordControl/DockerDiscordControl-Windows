@@ -1,73 +1,64 @@
-
-networks:
-  ddc-windows-network:
-    driver: bridge
+# docker-compose.yml - Windows Version (v2.0)
 
 services:
   setup:
     image: alpine:latest
+    container_name: ddc-windows-setup
     volumes:
       - ./config:/app/config
       - ./logs:/app/logs
-      - ./data:/app/data
     command: >
       sh -c "
-        echo Setting up Windows-compatible permissions... &&
-        mkdir -p /app/config /app/logs /app/data &&
-        chown -R 1000:1000 /app/config /app/logs /app/data &&
-        chmod -R 755 /app/config /app/logs /app/data &&
-        echo Windows setup complete!
+      echo 'Setting up Windows permissions...' &&
+      chown -R 1000:1000 /app/config /app/logs &&
+      chmod -R 755 /app/config /app/logs &&
+      echo 'Windows setup completed!'
       "
-    networks:
-      - ddc-windows-network
+    restart: "no"
 
   ddc:
-    build: 
+    container_name: ddc-windows
+    build:
       context: .
       dockerfile: Dockerfile
-    container_name: ddc-windows
     restart: unless-stopped
-    depends_on:
-      setup:
-        condition: service_completed_successfully
-    environment:
-      - PYTHONUNBUFFERED=1
-      - DOCKER_HOST=unix:///var/run/docker.sock
-      - TZ=${TZ:-UTC}
-      - PLATFORM=windows
+    ports:
+      - "9374:9374"
     volumes:
       - ./config:/app/config:rw
       - ./logs:/app/logs:rw
-      - ./data:/app/data:rw
-      - .env:/app/.env:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    ports:
-      - "8374:8374"
-      - "9374:9374"
+    environment:
+      - DOCKER_SOCKET=/var/run/docker.sock
+      - DOCKER_CONTEXT=default
+      - TZ=${TZ:-UTC}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
+      - DISCORD_GUILD_ID=${DISCORD_GUILD_ID}
     networks:
       - ddc-windows-network
     deploy:
       resources:
         limits:
-          cpus: "1.5"
-          memory: 384M
+          cpus: '2.0'
+          memory: 512M
         reservations:
-          cpus: "0.25"
-          memory: 96M
-    security_opt:
-      - no-new-privileges:true
-    user: "1000:1000"
+          cpus: '0.5'
+          memory: 128M
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9374/health"]
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9374/health', timeout=5)"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 45s
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    labels:
-      - "com.dockerdiscordcontrol.platform=windows"
-      - "com.dockerdiscordcontrol.version=1.0.0-windows"
+      start_period: 60s
+    security_opt:
+      - no-new-privileges:true
+    user: "1000:1000"
+    depends_on:
+      - setup
+
+networks:
+  ddc-windows-network:
+    driver: bridge
+    name: ddc-windows-network
