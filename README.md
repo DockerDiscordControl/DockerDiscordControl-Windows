@@ -10,6 +10,22 @@ Control your Docker environment directly from Discord with an intuitive web inte
 
 ---
 
+## 💖 **Support DDC Development**
+
+**Help keep DockerDiscordControl growing and improving across all platforms!**
+
+<div align="center">
+
+[![Buy Me A Coffee](https://img.shields.io/badge/☕_Buy_Me_A_Coffee-Support_DDC-orange?style=for-the-badge&logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/dockerdiscordcontrol)
+&nbsp;&nbsp;&nbsp;
+[![PayPal Donation](https://img.shields.io/badge/💝_PayPal_Donation-Support_DDC-blue?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/dockerdiscordcontrol)
+
+**Your support helps maintain DDC across Windows, Linux, macOS, and Universal versions!**
+
+</div>
+
+---
+
 ## Platform Selection
 
 **DockerDiscordControl is available with platform-optimized versions!**
@@ -517,4 +533,28 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+## 🌟 **Show Your Support**
+
+If DockerDiscordControl helps you manage your Windows containers, please consider supporting the project:
+
+<div align="center">
+
+### **💖 Support DDC Development**
+
+[![⭐ Star on GitHub](https://img.shields.io/badge/⭐_Star_on_GitHub-Show_Support-brightgreen?style=for-the-badge&logo=github)](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)
+
+[![☕ Buy Me A Coffee](https://img.shields.io/badge/☕_Buy_Me_A_Coffee-orange?style=for-the-badge&logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/dockerdiscordcontrol)
+&nbsp;&nbsp;
+[![💝 PayPal Donation](https://img.shields.io/badge/💝_PayPal_Donation-blue?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/dockerdiscordcontrol)
+
+**Your support helps maintain DDC across all platforms and develop new features!**
+
+</div>
+
+---
+
 **Windows v2.0.0** | Built for Windows 10/11 with Docker Desktop WSL 2 optimization
+
+**🪟 Built with ❤️ for Windows Docker Desktop users**
+
+**⭐ Star this repo if DockerDiscordControl helps you manage your Windows containers!**
