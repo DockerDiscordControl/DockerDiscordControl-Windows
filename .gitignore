@@ -1,16 +1,199 @@
-.env
-*.env.backup
+# Python
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+pytestdebug.log
+.coverage
+.coverage.*
+*.py,cover
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv/
+.env/
+.env.*
+
+# Flask
+instance/
+.webassets-cache
+.flask_session/
+
+# Logs
+logs/*
 *.log
-logs/*.log
-config/*.json
-data/
-backups/
-.vscode/
-.idea/
-*.tmp
-Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Configuration files with sensitive data
+config/*
+.env
+*.env
+.flaskenv
+.flaskenv.*
+
+# Docker
 .DS_Store
-node_modules/
+.dockerignore
 docker-compose.override.yml
+*.pem
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+.spyderproject
+.spyproject
+.ropeproject
+.vim/
+.atom/
+.ionide/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.nox/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+Icon?
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Backup files
+*.bak
+*.backup
+*~
+*.swp
+*.tmp
+
+# DDC Specific - Backup files and directories
+backup_*/
+backup_*.tar.gz
+backup_*.zip
+
+# DDC Specific - Performance and optimization documentation (generated)
+PERFORMANCE_*.md
+PERFORMANCE_OPTIMIZATIONS_*.md
+OPTIMIZATION_SUMMARY.md
+
+# DDC Specific - Runtime generated files
+*.pid
+*.sock
+*.lock
+
+# DDC Specific - Cache and temporary files
+.cache/
+cache/
+tmp/
+temp/
+
+# DDC Specific - Development and testing
+test_output/
+debug_output/
+performance_logs/
+
+# DDC Specific - Local bot information (SENSITIVE!)
+BOT_INFO.local.md
+BOT_INFO.local.txt
+BOT_INFO.*.md
+BOT_INFO.*.txt
+*_LOCAL_INFO.md
+*_LOCAL_INFO.txt
+
+# DDC Specific - AI Agent instructions (LOCAL)
+AI_AGENT_INSTRUCTIONS.md
+AI_AGENT_INSTRUCTIONS.txt
+AI_INSTRUCTIONS.md
+*_AI_INSTRUCTIONS.md
+
+# DDC Specific - ChatGPT damage documentation (LOCAL)
+CHATGPT_DAMAGE_REPORT.md
+CHATGPT_DAMAGE_*.md
+*_DAMAGE_REPORT.md
+CHATGPT_FAILURES.md
+CHATGPT_DISASTERS.md
+
+# Claude Code IDE settings (LOCAL)
+.claude/
+.claude/**
+
+# Keep empty log and config directories with .gitkeep
+!logs/.gitkeep
+!config/.gitkeep
+
+# Bot configuration with sensitive token
+config/bot_config.json
+
+# Environment files with sensitive data
+.env
+.env.local
+.env.production
+
+# Mech sprite sources (keep hidden)
+app/static/mech_sprites/
+*.png.backup
+
+# Fuel System Documentation (internal)
+FUEL_SYSTEM_MEMO.md
+FUEL_SYSTEM_FORMULAS.md
+config.backup_*/
