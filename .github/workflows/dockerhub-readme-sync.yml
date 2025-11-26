@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # ============================================================================ #
-# DockerDiscordControl-Windows - Docker Hub README Sync Workflow             #
+# DockerDiscordControl (DDC) - Docker Hub README Sync Workflow               #
 # https://ddc.bot                                                              #
 # Copyright (c) 2025 MAX                                                       #
 # Licensed under the MIT License                                               #
@@ -38,17 +38,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: dockerdiscordcontrol/dockerdiscordcontrol-windows
-          short-description: 'DDC for Windows - Docker Desktop optimized. Control Docker containers via Discord + Web UI. WSL2 support!'
+          repository: dockerdiscordcontrol/dockerdiscordcontrol
+          short-description: 'Control Docker containers via Discord bot + Web UI. 80% test coverage, Alpine Linux, 200MB RAM. Perfect for Unraid!'
           readme-filepath: ./README.md
 
       - name: Summary
         run: |
           echo "## ✅ Docker Hub README Sync Complete!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Repository**: dockerdiscordcontrol/dockerdiscordcontrol-windows" >> $GITHUB_STEP_SUMMARY
-          echo "**Platform**: Windows (Docker Desktop, WSL2)" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository**: dockerdiscordcontrol/dockerdiscordcontrol" >> $GITHUB_STEP_SUMMARY
           echo "**Source**: README.md" >> $GITHUB_STEP_SUMMARY
           echo "**Timestamp**: $(date)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🔗 View on Docker Hub: https://hub.docker.com/r/dockerdiscordcontrol/dockerdiscordcontrol-windows" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 View on Docker Hub: https://hub.docker.com/r/dockerdiscordcontrol/dockerdiscordcontrol" >> $GITHUB_STEP_SUMMARY

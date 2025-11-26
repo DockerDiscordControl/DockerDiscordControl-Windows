@@ -1,64 +1,54 @@
-# docker-compose.yml - Windows Version (v2.0)
+# docker-compose.yml
 
 services:
-  setup:
-    image: alpine:latest
-    container_name: ddc-windows-setup
-    volumes:
-      - ./config:/app/config
-      - ./logs:/app/logs
-    command: >
-      sh -c "
-      echo 'Setting up Windows permissions...' &&
-      chown -R 1000:1000 /app/config /app/logs &&
-      chmod -R 755 /app/config /app/logs &&
-      echo 'Windows setup completed!'
-      "
-    restart: "no"
-
-  ddc:
-    container_name: ddc-windows
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: unless-stopped
+  ddc: # Name of the service (freely selectable, here 'ddc')
+    container_name: ddc # Equivalent to --name ddc
+    image: dockerdiscordcontrol # The image to be used (built by rebuild.sh)
+    build: . # Optional: Allows building the image with 'docker-compose build'
+    restart: unless-stopped # Equivalent to --restart unless-stopped
     ports:
-      - "9374:9374"
+      - "9374:9374" # Equivalent to -p 9374:9374 (<host-port>:<container-port>)
+                    # Change the host port (9374) if it's already in use.
     volumes:
-      - ./config:/app/config:rw
-      - ./logs:/app/logs:rw
+      # Mount for Docker Socket
+      # Windows: Use npipe:////./pipe/docker_engine or adjust if using WSL2
+      # Linux/Mac: Use /var/run/docker.sock
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      # For native Windows Docker Desktop, use this instead:
+      # - //./pipe/docker_engine://./pipe/docker_engine
+      # Mount for the configuration directory
+      # Use relative paths for easier setup
+      - ./config:/app/config:cached
+      # Mount for logs
+      - ./logs:/app/logs:cached
+      # Note: cached_displays are now built into the Docker image for Community App compatibility
+    # user: "99:100"
     environment:
-      - DOCKER_SOCKET=/var/run/docker.sock
-      - DOCKER_CONTEXT=default
-      - TZ=${TZ:-UTC}
-      - LOG_LEVEL=${LOG_LEVEL:-INFO}
-      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
-      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
-      - DISCORD_GUILD_ID=${DISCORD_GUILD_ID}
-    networks:
-      - ddc-windows-network
+      # FLASK_SECRET_KEY: Must be set! Best to use a .env file.
+      FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
+      # ENV_FLASK_SECRET_KEY: Is also set to the same value (for Supervisor)
+      ENV_FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
+      # ENV_DOCKER_SOCKET: Path to the Docker socket (used in web_ui.py)
+      ENV_DOCKER_SOCKET: 'unix:///var/run/docker.sock'
+      # DOCKER_SOCKET: Also used in web_ui.py (set both to be safe)
+      DOCKER_SOCKET: 'unix:///var/run/docker.sock'
+      # Explicitly set DOCKER_HOST to correct URL format
+      DOCKER_HOST: 'unix:///var/run/docker.sock'
+      # SECURITY: Discord Bot Token via environment variable (recommended)
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN:-}
+      # Uncomment and set this to change the default admin password (admin)
+      # DDC_ADMIN_PASSWORD: ${DDC_ADMIN_PASSWORD}
+    logging: # Equivalent to --log-driver and --log-opt
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # Resource configuration for scalability
     deploy:
       resources:
         limits:
-          cpus: '2.0'
-          memory: 512M
+          cpus: '2.0'    # Allow up to 2 CPU cores for better performance
+          memory: 512M   # Allow up to 512MB memory for larger installations
         reservations:
-          cpus: '0.5'
-          memory: 128M
-    healthcheck:
-      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9374/health', timeout=5)"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    security_opt:
-      - no-new-privileges:true
-    user: "1000:1000"
-    depends_on:
-      - setup
-
-networks:
-  ddc-windows-network:
-    driver: bridge
-    name: ddc-windows-network
+          cpus: '0.25'   # Reserve 25% of a CPU core for responsiveness
+          memory: 128M   # Reserve 128MB memory as minimum
