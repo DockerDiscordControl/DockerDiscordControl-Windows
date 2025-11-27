@@ -1,24 +1,12 @@
-# DockerDiscordControl - Windows Edition v2.1 🐳
+# DockerDiscordControl v2.1 🐳
 
-[![Version](https://img.shields.io/badge/Version-v2.1.0-brightgreen?style=for-the-badge)](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows/releases/tag/v2.1.0) [![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge)](https://python.org) [![Base Image](https://img.shields.io/badge/Base-Alpine%203.22.2-blueviolet?style=for-the-badge)](#-ultra-optimized-alpine-image) [![Tests](https://img.shields.io/badge/Tests-Passing-success?style=for-the-badge)](#-testing--quality-assurance) [![Coverage](https://img.shields.io/badge/Coverage-80%25-brightgreen?style=for-the-badge)](#-testing--quality-assurance) [![Docker Pulls](https://img.shields.io/docker/pulls/dockerdiscordcontrol/dockerdiscordcontrol-windows?style=for-the-badge)](https://hub.docker.com/r/dockerdiscordcontrol/dockerdiscordcontrol-windows) [![Windows](https://img.shields.io/badge/Windows-10%2F11-blue?style=for-the-badge)](#platform-support) [![Wiki](https://img.shields.io/badge/Documentation-Wiki-lightgrey?style=for-the-badge)](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows/wiki)
+[![Version](https://img.shields.io/badge/Version-v2.1.0-brightgreen?style=for-the-badge)](https://github.com/DockerDiscordControl/DockerDiscordControl/releases/tag/v2.1.0) [![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge)](https://python.org) [![Base Image](https://img.shields.io/badge/Base-Alpine%203.22.2-blueviolet?style=for-the-badge)](#-ultra-optimized-alpine-image) [![Tests](https://img.shields.io/badge/Tests-Passing-success?style=for-the-badge)](#-testing--quality-assurance) [![Coverage](https://img.shields.io/badge/Coverage-80%25-brightgreen?style=for-the-badge)](#-testing--quality-assurance) [![Docker Pulls](https://img.shields.io/docker/pulls/dockerdiscordcontrol/dockerdiscordcontrol?style=for-the-badge)](https://hub.docker.com/r/dockerdiscordcontrol/dockerdiscordcontrol) [![Unraid](https://img.shields.io/badge/Unraid-Community%20Apps-orange?style=for-the-badge)](./docs/UNRAID.md) [![Wiki](https://img.shields.io/badge/Documentation-Wiki-lightgrey?style=for-the-badge)](https://github.com/DockerDiscordControl/DockerDiscordControl/wiki)
 
 A powerful Discord bot and web interface to manage Docker containers remotely. This application bridges the gap between Discord and your Docker environment, allowing container monitoring and control directly through Discord channels.
 
 **Homepage:** [https://ddc.bot](https://ddc.bot) | **[Complete Documentation](../../wiki)**
 
-Control your Docker containers directly from Discord! This **Windows-optimized version** is specifically designed for Docker Desktop on Windows 10/11 with WSL2 backend support and native Windows integration. The application provides a Discord bot and a web interface to manage Docker containers (start, stop, restart, view status) with a focus on stability, security, and performance. The default image is an ultra-optimized Alpine Linux build with the latest security patches and enhanced performance.
-
-## Windows-Specific Features 🪟
-
-This Windows Edition includes optimizations specifically for the Windows environment:
-
-- **Docker Desktop Optimized**: Seamless integration with Docker Desktop for Windows
-- **WSL2 Backend Support**: Full compatibility with Windows Subsystem for Linux 2
-- **Windows 10/11 Compatible**: Tested and optimized for modern Windows versions
-- **Hyper-V Integration**: Works with both Hyper-V and WSL2 Docker backends
-- **PowerShell Scripts**: Windows-native administration scripts included
-- **Windows Path Handling**: Proper handling of Windows volume paths and Docker socket
-- **Native Windows Notifications**: Better integration with Windows notification system
+Control your Docker containers directly from Discord! This application provides a Discord bot and a web interface to manage Docker containers (start, stop, restart, view status) with a focus on stability, security, and performance. The default image is an ultra-optimized Alpine Linux build with the latest security patches and enhanced performance.
 
 ## 🆕 Latest Updates
 
@@ -99,17 +87,17 @@ This Windows Edition includes optimizations specifically for the Windows environ
 
 | Platform | Repository | Description | Best For |
 |----------|------------|-------------|----------|
-| **Windows** | **[DockerDiscordControl-Windows](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)** *(this repo)* | Windows Docker Desktop optimized | Windows 10/11 + Docker Desktop |
+| **Windows** | **[DockerDiscordControl-Windows](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)** | Windows Docker Desktop optimized | Windows 10/11 + Docker Desktop |
 | **Linux** | **[DockerDiscordControl-Linux](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux)** | Native Linux optimization | Ubuntu, Debian, CentOS, RHEL |
 | **macOS** | **[DockerDiscordControl-Mac](https://github.com/DockerDiscordControl/DockerDiscordControl-Mac)** | Apple Silicon & Intel Mac optimized | macOS + Docker Desktop |
-| **Universal** | **[DockerDiscordControl](https://github.com/DockerDiscordControl/DockerDiscordControl)** | Multi-platform, Unraid focus | Unraid, NAS, servers |
+| **Universal** | **[DockerDiscordControl](https://github.com/DockerDiscordControl/DockerDiscordControl)** *(this repo)* | Multi-platform, Unraid focus | Unraid, NAS, servers |
 
 ### Quick Platform Selection:
 
-- **Windows Users** → **You're in the right place!** *(This repository - PowerShell scripts, WSL2 optimized)*
-- **Linux Users** → [**Linux Version**](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux) *(Native systemd, package managers)*
+- **Windows Users** → [**Windows Version**](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows) *(PowerShell scripts, WSL2 optimized)*
+- **Linux Users** → [**Linux Version**](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux) *(Native systemd, package managers)*  
 - **macOS Users** → [**Mac Version**](https://github.com/DockerDiscordControl/DockerDiscordControl-Mac) *(Apple Silicon + Intel, Homebrew)*
-- **Unraid/NAS Users** → [**Universal Version**](https://github.com/DockerDiscordControl/DockerDiscordControl) *(Community Apps support)*
+- **Unraid/NAS Users** → **Use this repository** *(Universal, Community Apps support)*
 
 ---
 
@@ -256,25 +244,13 @@ DDC includes HTTP Basic Auth and rate limiting, but these are designed for trust
 
 **Choose your platform for optimized experience:**
 
-#### **Windows Users (This Repository)**
-
-**You're already in the Windows-optimized repository!** Follow the installation guide below.
-
-**Prerequisites for Windows:**
-- Windows 10 (version 2004+) or Windows 11
-- Docker Desktop for Windows (latest version)
-- WSL2 enabled (recommended) or Hyper-V
-- PowerShell 5.1 or later
-
+#### **Windows Users**
+Visit: **[DockerDiscordControl-Windows](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)**
 ```powershell
-# Clone this repository
+# Clone Windows-optimized version
 git clone https://github.com/DockerDiscordControl/DockerDiscordControl-Windows.git
 cd DockerDiscordControl-Windows
-
-# Ensure Docker Desktop is running
-docker --version
-
-# Follow the Windows-specific setup guide below
+# Follow Windows-specific setup guide
 ```
 
 #### **Linux Users** 
@@ -297,55 +273,53 @@ cd DockerDiscordControl-Mac
 
 ---
 
-### **Windows Installation Guide**
+### **Universal Installation (Unraid & Servers)**
 
-**For Windows 10/11 with Docker Desktop:**
+**For Unraid, NAS systems, and server deployments:**
 
 #### Prerequisites
 
 1. **Create Discord Bot**: [Bot Setup Guide](../../wiki/Discord‐Bot‐Setup)
-2. **Docker Desktop for Windows**: [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
-3. **Enable WSL2** (recommended): [WSL2 Setup Guide](https://docs.microsoft.com/en-us/windows/wsl/install)
-4. **PowerShell**: Already included in Windows 10/11
+2. **Docker**: [Install Docker](https://docs.docker.com/engine/install/) + [Docker Compose](https://docs.docker.com/compose/install/)
 
 #### Installation Methods
 
-**Method 1: Docker Compose (Recommended for Windows)**
+**Method 1: Docker Compose (Recommended)**
 
-```powershell
+```bash
 # Clone repository
-git clone https://github.com/DockerDiscordControl/DockerDiscordControl-Windows.git
-cd DockerDiscordControl-Windows
+git clone https://github.com/DockerDiscordControl/DockerDiscordControl.git
+cd DockerDiscordControl
 
-# Create directories (PowerShell)
-New-Item -ItemType Directory -Force -Path config, logs
+# Create directories
+mkdir config logs
 
-# Create .env file with secure secret key (PowerShell)
-# Generate a random 64-character hex string for FLASK_SECRET_KEY
-$secretKey = -join ((0..31) | ForEach-Object { '{0:x2}' -f (Get-Random -Maximum 256) })
-Set-Content -Path .env -Value "FLASK_SECRET_KEY=$secretKey"
+# Create .env file with secure secret key
+echo "FLASK_SECRET_KEY=$(openssl rand -hex 32)" > .env
 
-# Start container (ensure Docker Desktop is running)
+# Start container
 docker compose up --build -d
 ```
 
-**Method 2: Docker Hub Direct (Windows)**
+**Method 2: Docker Hub (Direct)**
 
-```powershell
-# Pull and run latest Windows-optimized image
-docker run -d --name ddc `
-  -p 9374:9374 `
-  -v /var/run/docker.sock:/var/run/docker.sock `
-  -v ${PWD}/config:/app/config `
-  -v ${PWD}/logs:/app/logs `
-  -e FLASK_SECRET_KEY="$(-join ((0..31) | ForEach-Object { '{0:x2}' -f (Get-Random -Maximum 256) }))" `
-  --restart unless-stopped `
-  dockerdiscordcontrol/dockerdiscordcontrol-windows:latest
+```bash
+# Pull and run latest Alpine-optimized image
+docker run -d --name ddc \
+  -p 9374:9374 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v ./config:/app/config \
+  -v ./logs:/app/logs \
+  -e FLASK_SECRET_KEY="$(openssl rand -hex 32)" \
+  --restart unless-stopped \
+  dockerdiscordcontrol/dockerdiscordcontrol:latest
 ```
 
-**Note for WSL2 Users**: If you're using Docker Desktop with WSL2 backend, the Docker socket path `/var/run/docker.sock` is automatically handled by Docker Desktop. No special configuration needed!
-
-**Note for Hyper-V Users**: Ensure Docker Desktop is configured to expose the daemon on tcp://localhost:2375 without TLS, or use the default named pipe `//./pipe/docker_engine` (Docker Desktop handles this automatically).
+**Method 3: Unraid (Recommended for Unraid users)**
+- Install via **Community Applications**
+- Search for "DockerDiscordControl"
+- **One-click install** with pre-configured paths
+- [📖 Detailed Unraid Setup](docs/UNRAID.md)
 
 #### First-Time Setup
 
@@ -485,17 +459,15 @@ The default build for this repository is now the stable, optimized Alpine image.
 
 ## 🐳 Docker Images
 
-**Ultra-optimized Alpine Linux image for Windows:**
+**Ultra-optimized Alpine Linux image:**
 - **Size:** 176MB with multi-stage build optimization
-- **Base:** Alpine Linux 3.22.2 (latest secure version)
+- **Base:** Alpine Linux 3.22.2 (latest secure version)  
 - **Architecture:** Service-oriented modular design (v2.0)
 - **Security:** Latest dependencies with all CVEs fixed
 - **Performance:** Optimized for minimal resource usage and fast startup
-- **Windows Compatibility:** Fully tested with Docker Desktop on Windows 10/11
 
-```powershell
-# Pull the Windows-optimized image
-docker pull dockerdiscordcontrol/dockerdiscordcontrol-windows:latest
+```bash
+docker pull dockerdiscordcontrol/dockerdiscordcontrol:latest
 ```
 
 ## System Requirements
@@ -514,24 +486,22 @@ docker pull dockerdiscordcontrol/dockerdiscordcontrol-windows:latest
 
 ### **Platform Support**
 
-#### **🪟 This Windows Repository**
-- **Windows 10**: Version 2004 (Build 19041) or later ⭐
-- **Windows 11**: All versions fully supported ⭐
-- **Docker Desktop**: Latest version (with WSL2 or Hyper-V backend)
-- **WSL2**: Recommended backend for optimal performance
-- **Hyper-V**: Supported (requires Windows 10/11 Pro/Enterprise)
-- **Architecture**: x86_64 (AMD64)
+#### **🔧 This Universal Repository**
+- **Unraid**: Native Community Applications support ⭐
+- **Linux Servers**: x86_64, ARM64 (Raspberry Pi)
+- **Docker**: Swarm, Compose, Standalone
+- **NAS**: Synology, QNAP, TrueNAS
 
-#### **🎯 Other Platform-Optimized Repositories**
+#### **🎯 Platform-Optimized Repositories**
+- **🪟 [Windows](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)**: Docker Desktop, WSL2, PowerShell integration
 - **🐧 [Linux](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux)**: Native systemd, package managers, distributions
 - **🍎 [macOS](https://github.com/DockerDiscordControl/DockerDiscordControl-Mac)**: Apple Silicon, Intel, Homebrew, Docker Desktop
-- **🔧 [Universal](https://github.com/DockerDiscordControl/DockerDiscordControl)**: Unraid, NAS (Synology, QNAP, TrueNAS), multi-platform servers
 
 ## Documentation
 
 | Topic | Description |
 |-------|-------------|
-| [Windows Installation Guide](../../wiki/Windows‐Installation) | Detailed Windows-specific setup with Docker Desktop |
+| [Installation Guide](../../wiki/Installation‐Guide) | Detailed setup for all platforms |
 | [Configuration](../../wiki/Configuration) | Web UI, permissions, channels |
 | [Auto-Action System](../../wiki/Auto‐Action‐System) | Automatic triggers, keywords, regex, webhooks |
 | [Status Watchdog](../../wiki/Status‐Watchdog) | Dead Man's Switch monitoring setup |
@@ -539,7 +509,7 @@ docker pull dockerdiscordcontrol/dockerdiscordcontrol-windows:latest
 | [Performance](../../wiki/Performance‐and‐Architecture) | V3.0 optimizations & monitoring |
 | [Alpine Migration](../../wiki/Alpine‐Linux‐Migration) | Benefits, security, optimization |
 | [Memory Optimization](../../wiki/Memory‐Optimization) | Resource management, limits |
-| [WSL2 Configuration](../../wiki/WSL2‐Setup) | WSL2 backend optimization for Windows |
+| [Unraid Setup](docs/UNRAID.md) | Community Applications guide |
 | [Troubleshooting](../../wiki/Troubleshooting) | Common issues & solutions |
 | [Development](../../wiki/Development) | Contributing & development setup |
 | [Security](../../wiki/Security) | Best practices & considerations |
@@ -573,16 +543,10 @@ docker pull dockerdiscordcontrol/dockerdiscordcontrol-windows:latest
 
 We welcome contributions! See our [Development Guide](../../wiki/Development) for setup instructions and coding standards.
 
-**Contributing to This Windows Version:**
-- Fork this repository and create feature branches
-- Test on both WSL2 and Hyper-V backends
-- Follow PowerShell best practices for scripts
-- Ensure compatibility with Windows 10/11
-
-**Contributing to Other Platform Versions:**
+**Contributing to Platform-Specific Versions:**
+- **Windows**: [Contribute to Windows version](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)
 - **Linux**: [Contribute to Linux version](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux)
 - **macOS**: [Contribute to Mac version](https://github.com/DockerDiscordControl/DockerDiscordControl-Mac)
-- **Universal**: [Contribute to Universal version](https://github.com/DockerDiscordControl/DockerDiscordControl)
 
 ## License
 
@@ -590,12 +554,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Like DDC for Windows? Star this repository!** | **Found a bug?** [Report it](../../issues) | **Feature idea?** [Suggest it](../../discussions)
+**Like DDC? Star the repository!** | **Found a bug?** [Report it](../../issues) | **Feature idea?** [Suggest it](../../discussions)
 
-**Check out the other platform-optimized versions too!**
-- **[Linux](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux)** - Native Linux optimization
-- **[macOS](https://github.com/DockerDiscordControl/DockerDiscordControl-Mac)** - Apple Silicon & Intel
-- **[Universal](https://github.com/DockerDiscordControl/DockerDiscordControl)** - Unraid & NAS systems
+**Don't forget to star the platform-specific repos too!** 
+- **[Windows](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)**
+- **[Linux](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux)**  
+- **[macOS](https://github.com/DockerDiscordControl/DockerDiscordControl-Mac)**
 
 ## Support DDC Development
 
@@ -604,7 +568,7 @@ Help keep DockerDiscordControl growing and improving across all platforms:
 - **[Buy Me A Coffee](https://buymeacoffee.com/dockerdiscordcontrol)** - Quick one-time support
 - **[PayPal Donation](https://www.paypal.com/donate/?hosted_button_id=XKVC6SFXU2GW4)** - Direct contribution  
 
-Your support helps maintain DDC across **Windows, Linux, macOS, and Universal** versions, develop new features, improve Windows-specific optimizations, and keep it zero-vulnerability secure! 
+Your support helps maintain DDC across **Windows, Linux, macOS, and Universal** versions, develop new features, and keep it zero-vulnerability secure! 
 
 ## Credits & Contributors
 
@@ -615,4 +579,4 @@ Your support helps maintain DDC across **Windows, Linux, macOS, and Universal** 
 
 Want to contribute? Check out our [Contributing Guidelines](docs/CONTRIBUTING.md)!
 
-**Built for Windows - optimized for Docker Desktop on Windows 10/11 with WSL2 and Hyper-V support!**
+**Built for every platform - optimized for your environment!**

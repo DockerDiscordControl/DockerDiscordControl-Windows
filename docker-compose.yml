@@ -10,12 +10,8 @@ services:
       - "9374:9374" # Equivalent to -p 9374:9374 (<host-port>:<container-port>)
                     # Change the host port (9374) if it's already in use.
     volumes:
-      # Mount for Docker Socket
-      # Windows: Use npipe:////./pipe/docker_engine or adjust if using WSL2
-      # Linux/Mac: Use /var/run/docker.sock
+      # Mount for Docker Socket (Adjust if your socket is located elsewhere)
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # For native Windows Docker Desktop, use this instead:
-      # - //./pipe/docker_engine://./pipe/docker_engine
       # Mount for the configuration directory
       # Use relative paths for easier setup
       - ./config:/app/config:cached
