@@ -1,6 +1,6 @@
 # DockerDiscordControl v2.1.2 🐳
 
-[![Version](https://img.shields.io/badge/Version-v2.1.2-brightgreen?style=for-the-badge)](https://github.com/DockerDiscordControl/DockerDiscordControl/releases/tag/v2.1.2) [![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge)](https://python.org) [![Base Image](https://img.shields.io/badge/Base-Alpine%203.22.2-blueviolet?style=for-the-badge)](#-ultra-optimized-alpine-image) [![Tests](https://img.shields.io/badge/Tests-Passing-success?style=for-the-badge)](#-testing--quality-assurance) [![Coverage](https://img.shields.io/badge/Coverage-80%25-brightgreen?style=for-the-badge)](#-testing--quality-assurance) [![Docker Pulls](https://img.shields.io/docker/pulls/dockerdiscordcontrol/dockerdiscordcontrol?style=for-the-badge)](https://hub.docker.com/r/dockerdiscordcontrol/dockerdiscordcontrol) [![Unraid](https://img.shields.io/badge/Unraid-Community%20Apps-orange?style=for-the-badge)](./docs/UNRAID.md) [![Wiki](https://img.shields.io/badge/Documentation-Wiki-lightgrey?style=for-the-badge)](https://github.com/DockerDiscordControl/DockerDiscordControl/wiki)
+[![Version](https://img.shields.io/badge/Version-v2.1.2-brightgreen?style=for-the-badge)](https://github.com/DockerDiscordControl/DockerDiscordControl/releases/tag/v2.1.2) [![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge)](https://python.org) [![Base Image](https://img.shields.io/badge/Base-Alpine%203.22.2-blueviolet?style=for-the-badge)](#-ultra-optimized-alpine-image) [![Tests](https://img.shields.io/badge/Tests-Passing-success?style=for-the-badge)](#-testing--quality-assurance) [![Coverage](https://img.shields.io/badge/Coverage-80%25-brightgreen?style=for-the-badge)](#-testing--quality-assurance) [![Docker Pulls](https://img.shields.io/docker/pulls/dockerdiscordcontrol/dockerdiscordcontrol?style=for-the-badge)](https://hub.docker.com/r/dockerdiscordcontrol/dockerdiscordcontrol) [![Wiki](https://img.shields.io/badge/Documentation-Wiki-lightgrey?style=for-the-badge)](https://github.com/DockerDiscordControl/DockerDiscordControl/wiki)
 
 A powerful Discord bot and web interface to manage Docker containers remotely. This application bridges the gap between Discord and your Docker environment, allowing container monitoring and control directly through Discord channels.
 
@@ -10,19 +10,19 @@ Control your Docker containers directly from Discord! This application provides 
 
 ## 🆕 Latest Updates
 
-### ✅ **v2.1.2 (2025-11-28) - Unraid/NAS Permission Fix**
+### ✅ **v2.1.2 (2025-11-28) - Permission Management & Security**
 
-🔧 **Unraid & NAS Compatibility:**
-- **FIXED:** Container failed to start on Unraid due to volume permission issues
-- **NEW:** PUID/PGID environment variables for custom user/group mapping
+🔧 **Windows Permission Management:**
+- **FIXED:** Container startup issues due to volume permission problems
+- **NEW:** PUID/PGID environment variables for custom user/group mapping (WSL2)
 - **NEW:** Automatic permission fixing at container startup
-- **IMPROVED:** Clear error messages with Unraid-specific guidance
+- **IMPROVED:** Clear error messages with helpful guidance
 
-📦 **For Unraid Users:**
+📦 **For Windows Users (WSL2):**
 ```yaml
 environment:
-  - PUID=99
-  - PGID=100
+  - PUID=1000
+  - PGID=1000
 ```
 
 🎮 **New Discord Command:**
@@ -124,7 +124,7 @@ environment:
 - Container control reliability improvements
 - Web UI configuration persistence
 
-**🚀 Ready for Unraid Community Applications! Now with Auto-Action System for automatic updates and Status Watchdog for offline alerts!**
+**🚀 Optimized for Windows! Now with Auto-Action System for automatic updates and Status Watchdog for offline alerts!**
 
 ## Platform Selection
 
@@ -132,17 +132,17 @@ environment:
 
 | Platform | Repository | Description | Best For |
 |----------|------------|-------------|----------|
-| **Windows** | **[DockerDiscordControl-Windows](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)** | Windows Docker Desktop optimized | Windows 10/11 + Docker Desktop |
+| **Windows** | **[DockerDiscordControl-Windows](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)** *(this repo)* | Windows Docker Desktop optimized | Windows 10/11 + Docker Desktop |
 | **Linux** | **[DockerDiscordControl-Linux](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux)** | Native Linux optimization | Ubuntu, Debian, CentOS, RHEL |
 | **macOS** | **[DockerDiscordControl-Mac](https://github.com/DockerDiscordControl/DockerDiscordControl-Mac)** | Apple Silicon & Intel Mac optimized | macOS + Docker Desktop |
-| **Universal** | **[DockerDiscordControl](https://github.com/DockerDiscordControl/DockerDiscordControl)** *(this repo)* | Multi-platform, Unraid focus | Unraid, NAS, servers |
+| **Universal** | **[DockerDiscordControl](https://github.com/DockerDiscordControl/DockerDiscordControl)** | Optimized for Windows & WSL2 | Windows 10/11, WSL2, Docker Desktop |
 
 ### Quick Platform Selection:
 
-- **Windows Users** → [**Windows Version**](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows) *(PowerShell scripts, WSL2 optimized)*
-- **Linux Users** → [**Linux Version**](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux) *(Native systemd, package managers)*  
+- **Windows Users** → **Use this repository** *(PowerShell scripts, WSL2 optimized, Docker Desktop)*
+- **Linux Users** → [**Linux Version**](https://github.com/DockerDiscordControl/DockerDiscordControl-Linux) *(Native systemd, package managers)*
 - **macOS Users** → [**Mac Version**](https://github.com/DockerDiscordControl/DockerDiscordControl-Mac) *(Apple Silicon + Intel, Homebrew)*
-- **Unraid/NAS Users** → **Use this repository** *(Universal, Community Apps support)*
+- **Unraid/NAS Users** → [**Universal Version**](https://github.com/DockerDiscordControl/DockerDiscordControl) *(Multi-platform support)*
 
 ---
 
@@ -318,9 +318,9 @@ cd DockerDiscordControl-Mac
 
 ---
 
-### **Universal Installation (Unraid & Servers)**
+### **Windows Installation (Docker Desktop / WSL2)**
 
-**For Unraid, NAS systems, and server deployments:**
+**For Windows 10/11 with Docker Desktop or WSL2:**
 
 #### Prerequisites
 
@@ -360,11 +360,11 @@ docker run -d --name ddc \
   dockerdiscordcontrol/dockerdiscordcontrol:latest
 ```
 
-**Method 3: Unraid (Recommended for Unraid users)**
-- Install via **Community Applications**
-- Search for "DockerDiscordControl"
-- **One-click install** with pre-configured paths
-- [📖 Detailed Unraid Setup](docs/UNRAID.md)
+**Method 3: Docker Desktop for Windows (Recommended for Windows users)**
+- Install via **Docker Desktop**
+- Use Docker Compose or CLI commands above
+- **Pre-configured for Windows** with optimized paths
+- Supports both native Windows paths and WSL2
 
 #### First-Time Setup
 
@@ -531,11 +531,11 @@ docker pull dockerdiscordcontrol/dockerdiscordcontrol:latest
 
 ### **Platform Support**
 
-#### **🔧 This Universal Repository**
-- **Unraid**: Native Community Applications support ⭐
-- **Linux Servers**: x86_64, ARM64 (Raspberry Pi)
-- **Docker**: Swarm, Compose, Standalone
-- **NAS**: Synology, QNAP, TrueNAS
+#### **🔧 This Windows Repository**
+- **Windows 10/11**: Docker Desktop support ⭐
+- **WSL2**: Full compatibility and optimization
+- **Docker**: Compose, Standalone
+- **Architectures**: x86_64 (Intel/AMD)
 
 #### **🎯 Platform-Optimized Repositories**
 - **🪟 [Windows](https://github.com/DockerDiscordControl/DockerDiscordControl-Windows)**: Docker Desktop, WSL2, PowerShell integration
@@ -554,7 +554,7 @@ docker pull dockerdiscordcontrol/dockerdiscordcontrol:latest
 | [Performance](../../wiki/Performance‐and‐Architecture) | V3.0 optimizations & monitoring |
 | [Alpine Migration](../../wiki/Alpine‐Linux‐Migration) | Benefits, security, optimization |
 | [Memory Optimization](../../wiki/Memory‐Optimization) | Resource management, limits |
-| [Unraid Setup](docs/UNRAID.md) | Community Applications guide |
+| [Windows Setup](docs/WINDOWS.md) | Docker Desktop & WSL2 guide |
 | [Troubleshooting](../../wiki/Troubleshooting) | Common issues & solutions |
 | [Development](../../wiki/Development) | Contributing & development setup |
 | [Security](../../wiki/Security) | Best practices & considerations |
