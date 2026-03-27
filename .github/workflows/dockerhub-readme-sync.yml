@@ -39,7 +39,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: dockerdiscordcontrol/dockerdiscordcontrol-windows
-          short-description: 'Control Docker containers via Discord bot + Web UI - Windows Edition. Docker Desktop & WSL2 optimized.'
+          short-description: 'Control Docker containers via Discord bot + Web UI - Windows Edition. Docker Desktop short-description: 'Control Docker containers via Discord bot + Web UI - Windows Edition. Docker Desktop & WSL2 optimized.' WSL2 optimized.'
           readme-filepath: ./README.md
 
       - name: Summary
